@@ -17,6 +17,14 @@ public class movement : MonoBehaviour
     public KeyCode _right_arm = KeyCode.K;
     public KeyCode _breath = KeyCode.O;
     public KeyCode _blink = KeyCode.E;
+    public KeyCode _regain_poisture = KeyCode.Space;
+
+
+    private bool standing = true;
+
+    private readonly double breath_genkai = 5;
+
+    private bool is_breathing = true;
 
 
     private class Arm
@@ -59,9 +67,33 @@ public class movement : MonoBehaviour
         return temp;
     }
 
-    private void move_leg(Vector3 direction, Limb prev_limb, Limb curr_limb)
+    private void stopBreathing(bool should_cache = false)
+    {
+        if (!should_cache)
+        {
+            action.time_since_breath = 0;
+        }
+        is_breathing = false;
+    }
+
+    private void startBreathing()
+    {
+        is_breathing = true;
+    }
+
+
+    private void regainPoisture()
+    {
+        standing = true;
+    }
+    private void moveLeg(Vector3 direction, Limb prev_limb, Limb curr_limb)
     {
         if (prev_limb == curr_limb)
+        {
+            return;
+        }
+
+        if (!standing)
         {
             return;
         }
@@ -82,16 +114,17 @@ public class movement : MonoBehaviour
     {
         if (Input.GetKeyDown(_right_leg))
         {
-           move_leg(Vector3.right, action.leg, Limb.Right);
+           moveLeg(Vector3.right, action.leg, Limb.Right);
         }
         else if (Input.GetKeyDown(_left_leg))
         {
-            move_leg(Vector3.right, action.leg, Limb.Left);
+            moveLeg(Vector3.right, action.leg, Limb.Left);
         }
 
         if (Input.GetKeyDown(_breath))
         {
             breath();
+            
         }
 
         if (Input.GetKeyDown(_blink))
@@ -99,7 +132,25 @@ public class movement : MonoBehaviour
             blink();
         }
 
-        action.time_since_breath += Time.deltaTime;
-        action.time_since_blink += Time.deltaTime;
+        if (Input.GetKeyDown(_regain_poisture))
+        {
+            if (!standing)
+            {
+                regainPoisture();
+            }
+        }
+
+        if (action.time_since_breath > (breath_genkai - Mathf.Epsilon))
+        {
+            standing = false;
+            stopBreathing();
+            
+        }
+
+        if (is_breathing)
+        {
+            action.time_since_breath += Time.deltaTime;
+        }
+            action.time_since_blink += Time.deltaTime;
     }
 }

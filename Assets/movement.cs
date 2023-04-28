@@ -22,7 +22,8 @@ public class movement : MonoBehaviour
 
     private bool standing = true;
 
-    private readonly double breath_genkai = 5;
+    public double breath_genkai = 5;
+    public double blink_genkai = 5;
 
     private bool is_breathing = true;
 

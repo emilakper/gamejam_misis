@@ -20,6 +20,8 @@ public class movement : MonoBehaviour
     public KeyCode _blink = KeyCode.E;
     public KeyCode _regain_posture = KeyCode.Space;
 
+    public KeyCode _action_button;
+
 
     // Ћимит времени, сколько человечек может не дышать.
     public double breath_genkai = 10;
@@ -27,6 +29,9 @@ public class movement : MonoBehaviour
     // Ћимит времени, сколько человечек может не моргать.
     public double blink_genkai = 10;
 
+    private bool is_colliding = false;
+
+    private Actionable current_action;
 
 
     // !!!Ќ≈ “–ќ√ј“№!!! тестовый класс.
@@ -215,11 +220,41 @@ public class movement : MonoBehaviour
 
         }
 
+
+        if (_action_button != KeyCode.None && Input.GetKeyDown(_action_button) && is_colliding) 
+        {
+            current_action.actOn(this);
+            
+        }
+
         // ќтсчЄт времени с дыхани€ идЄт только в том случае, если наш человечек уже дышал.
         if (action.isBreathing())
         {
             action.time_since_breath += Time.deltaTime;
         }
         action.time_since_blink += Time.deltaTime;
+    }
+
+
+
+  
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        is_colliding = true;
+        if (other.gameObject.tag == "Actionable")
+        {
+            Actionable act = other.gameObject.GetComponent<Actionable>();
+            act.preActOn(this);
+            current_action = act;
+        }
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        current_action.postActOn(this);
+        is_colliding = false;
+        _action_button = KeyCode.None;
+        current_action = null;
     }
 }

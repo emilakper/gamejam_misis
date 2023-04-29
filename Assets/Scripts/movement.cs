@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
+    
 #if DEBUG
     SpriteRenderer square;
 #endif
@@ -28,7 +29,7 @@ public class movement : MonoBehaviour
     public KeyCode _action_button;
 
 
-    Vector3 direction = Vector3.right;
+    public Vector3 direction = Vector3.right;
 
     // ����� �������, ������� ��������� ����� �� ������.
     public double breath_genkai = 10;
@@ -43,7 +44,7 @@ public class movement : MonoBehaviour
 
     private Actionable current_action;
 
-
+    
     // !!!�� �������!!! �������� �����.
     private class Arm<T>
     {
@@ -80,11 +81,11 @@ public class movement : MonoBehaviour
     }
     // �������� �� ��, ����� ����������: ����� ��� ������.
     // ��� ���� ����� ���������� �������� �����, ������� ��������� ��� �������������� �������.
-    enum Limb : System.UInt16 { Right = 0x0, Left = 0xFFFF}
+    public enum Limb : System.UInt16 { Right = 0x0, Left = 0xFFFF}
 
     // ������ � ���� ��� ������� ��������, ����� ������� � ��� �����.
     // !!!������ ����� ����� �������������!!!
-    class Actions
+    public class Actions
     {
         // ����� ���� � ���� ���� ������������ ����������
         public Limb leg = Limb.Right;
@@ -158,8 +159,10 @@ public class movement : MonoBehaviour
         }
     }
 
-    private Actions action = new();
+    public Actions action = new();
 
+
+    Blinking blink_obj = null;
 
     /// <summary>
     /// ������� ���������, ���� ������ ���� �� ����� ��, ��� ����������.
@@ -206,10 +209,7 @@ public class movement : MonoBehaviour
         square = GetComponent<SpriteRenderer>();
 #endif
 
-        blinding_screen_renderer = GameObject.Find("BlindingScreen").GetComponent<SpriteRenderer>();
-        Color new_color = blinding_screen_renderer.color;
-        new_color.a = 0;
-        blinding_screen_renderer.color = new_color; 
+        blink_obj = FindObjectOfType<Blinking>();
     }
 
 
@@ -231,13 +231,7 @@ public class movement : MonoBehaviour
         } else square.color = Color.white;
 #endif
 
-        if (action.time_since_blink > blinking_offset_when_screen_starts_fading)
-        {
-            Color b = blinding_screen_renderer.color;
-            b.a = ((float)(1 - (float)(blink_genkai - (action.time_since_blink - blinking_offset_when_screen_starts_fading)) / blink_fading_speed));
-            blinding_screen_renderer.color = b;
-        }
-
+       
         if (Input.GetKeyDown(_right_leg))
         {
             moveLeg(direction, action.leg, Limb.Right);
@@ -253,9 +247,11 @@ public class movement : MonoBehaviour
 
         if (Input.GetKeyDown(_blink)) 
         {
-            Color b = blinding_screen_renderer.color;
-            b.a = 0;
-            blinding_screen_renderer.color = b;
+            
+            if (blink_obj)
+            {
+                blink_obj.res();
+            }
             action.blink(); 
         }
 

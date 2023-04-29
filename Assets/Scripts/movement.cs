@@ -241,6 +241,7 @@ public class movement : MonoBehaviour
             moveLeg(direction, action.leg, Limb.Left);
         }
 
+        // Try
         if (Input.GetKeyDown(_change_direction)) direction = -direction;
 
         if (Input.GetKeyDown(_breath)) action.breath();

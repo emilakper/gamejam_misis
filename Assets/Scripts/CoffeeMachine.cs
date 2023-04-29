@@ -23,12 +23,14 @@ public class CoffeeMachine : MonoBehaviour, Actionable
     public void preActOn(movement player)
     {
         player._action_button = _action_button;
+
+        // Ui.popUp(KeyCode.A);
     }
 
 
     public void postActOn(movement player)
     {
-
+        // Ui.hide(KeyCode.A);
     }
 
 }

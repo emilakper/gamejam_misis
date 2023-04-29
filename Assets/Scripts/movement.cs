@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 
@@ -21,9 +22,13 @@ public class movement : MonoBehaviour
     public KeyCode _breath = KeyCode.O;
     public KeyCode _blink = KeyCode.E;
     public KeyCode _regain_posture = KeyCode.Space;
+    public KeyCode _change_direction = KeyCode.H;
+
 
     public KeyCode _action_button;
 
+
+    Vector3 direction = Vector3.right;
 
     // ����� �������, ������� ��������� ����� �� ������.
     public double breath_genkai = 10;
@@ -31,17 +36,33 @@ public class movement : MonoBehaviour
     // ����� �������, ������� ��������� ����� �� �������.
     public double blink_genkai = 10;
 
+    public double blinking_offset_when_screen_starts_fading = 2;
+    public double blink_fading_speed = 5;
+
     private bool is_colliding = false;
 
     private Actionable current_action;
 
 
     // !!!�� �������!!! �������� �����.
-    private class Arm
+    private class Arm<T>
     {
-        public Object held_object;
+        public bool is_empty() { return !holds_anything; }
+        public void take(T obj) { held_object = obj; holds_anything = true; }
+
+        private T held_object = default(T);
+        private bool holds_anything = false;
+
     }
 
+    private Arm<GameObject> left_arm = new();
+    private Arm<GameObject> right_arm = new();
+
+
+    public void pickUp(GameObject obj)
+    {
+
+    }
     // �������� �� ��, ����� ����������: ����� ��� ������.
     // ��� ���� ����� ���������� �������� �����, ������� ��������� ��� �������������� �������.
     enum Limb : System.UInt16 { Right = 0x0, Left = 0xFFFF}
@@ -129,10 +150,10 @@ public class movement : MonoBehaviour
     /// ������� ���������, ���� ������ ���� �� ����� ��, ��� ����������.
     /// !!!� debug ������!!! ����� ������ ���� ������.
     /// </summary>
-    /// <param name="direction">���� ��������� ��������</param>
+    /// <param name="dir">���� ��������� ��������</param>
     /// <param name="prev_limb">���������� ����</param>
     /// <param name="curr_limb">����, �� ������� �������� �������� ������</param>
-    private void moveLeg(Vector3 direction, Limb prev_limb, Limb curr_limb)
+    private void moveLeg(Vector3 dir, Limb prev_limb, Limb curr_limb)
     {
         if (prev_limb == curr_limb)
         {
@@ -149,7 +170,7 @@ public class movement : MonoBehaviour
 #if DEBUG
             square.color = Color.red;
 #endif
-            transform.position += direction;
+            transform.position += dir;
             action.leg = Limb.Left;
         }
         else
@@ -157,7 +178,7 @@ public class movement : MonoBehaviour
 #if DEBUG
             square.color = Color.blue;
 #endif
-            transform.position += direction;
+            transform.position += dir;
             action.leg = Limb.Right;
         }
     }
@@ -195,22 +216,24 @@ public class movement : MonoBehaviour
         } else square.color = Color.white;
 #endif
 
-        if (action.time_since_blink > 2 && blink_genkai - action.time_since_blink > 0)
+        if (action.time_since_blink > blinking_offset_when_screen_starts_fading )
         {
             Color b = blinding_screen_renderer.color;
-            b.a = (1 - (float)(blink_genkai - (action.time_since_blink - 2)) / 5);
+            b.a = ((float)(1 - (float)(blink_genkai - (action.time_since_blink - blinking_offset_when_screen_starts_fading)) / blink_fading_speed));
             blinding_screen_renderer.color = b;
         }
 
 
         if (Input.GetKeyDown(_right_leg))
         {
-            moveLeg(Vector3.right, action.leg, Limb.Right);
+            moveLeg(direction, action.leg, Limb.Right);
         }
         else if (Input.GetKeyDown(_left_leg))
         {
-            moveLeg(Vector3.right, action.leg, Limb.Left);
+            moveLeg(direction, action.leg, Limb.Left);
         }
+
+        if (Input.GetKeyDown(_change_direction)) direction = -direction;
 
         if (Input.GetKeyDown(_breath)) action.breath();
 

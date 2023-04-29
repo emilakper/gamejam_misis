@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ConcreteActionable : MonoBehaviour, Actionable
 {
@@ -13,11 +14,14 @@ public class ConcreteActionable : MonoBehaviour, Actionable
 
     }
 
-    public void actOn(movement player)
+    public void actOn(movement player, KeyCode action_key)
     {
-        print("aa\n");
-    } 
-    public void preActOn(movement player)
+        if (Input.GetKeyDown(action_key))
+        {
+            print("aa\n");
+        }
+        }
+        public void preActOn(movement player)
     {
         player._action_button = _action_button;
     }

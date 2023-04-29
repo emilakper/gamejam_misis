@@ -15,14 +15,14 @@ public class movement : MonoBehaviour
     private SpriteRenderer blinding_screen_renderer;
 
     // ������� ����� ��� ���������� ��� �������.
-    public KeyCode _left_leg = KeyCode.F;
-    public KeyCode _right_leg = KeyCode.G;
-    public KeyCode _left_arm = KeyCode.J;
-    public KeyCode _right_arm = KeyCode.K;
-    public KeyCode _breath = KeyCode.O;
-    public KeyCode _blink = KeyCode.E;
-    public KeyCode _regain_posture = KeyCode.Space;
-    public KeyCode _change_direction = KeyCode.H;
+    public static KeyCode _left_leg = KeyCode.F;
+    public static KeyCode _right_leg = KeyCode.G;
+    public static KeyCode _left_arm = KeyCode.J;
+    public static KeyCode _right_arm = KeyCode.K;
+    public static KeyCode _breath = KeyCode.O;
+    public static KeyCode _blink = KeyCode.E;
+    public static KeyCode _regain_posture = KeyCode.Space;
+    public static KeyCode _change_direction = KeyCode.H;
 
 
     public KeyCode _action_button;
@@ -47,21 +47,36 @@ public class movement : MonoBehaviour
     // !!!�� �������!!! �������� �����.
     private class Arm<T>
     {
+        public Arm(KeyCode assign_key) { assigned_key = assign_key; }   
         public bool is_empty() { return !holds_anything; }
         public void take(T obj) { held_object = obj; holds_anything = true; }
 
+        public KeyCode get_assigned_key() { return assigned_key; }
+
         private T held_object = default(T);
         private bool holds_anything = false;
+        private KeyCode assigned_key;
 
     }
 
-    private Arm<GameObject> left_arm = new();
-    private Arm<GameObject> right_arm = new();
+    private Arm<Pickable> left_arm = new(_left_arm);
+    private Arm<Pickable> right_arm = new(_right_arm);
 
 
-    public void pickUp(GameObject obj)
+    public void pickUp(Pickable obj, KeyCode which_arm)
     {
-
+        if (which_arm == left_arm.get_assigned_key())
+        {
+            if (left_arm.is_empty()) { left_arm.take(obj); obj.onPick(this); }
+            
+        }
+        else if (which_arm == right_arm.get_assigned_key()) 
+        {
+            if (right_arm.is_empty()) { right_arm.take(obj); obj.onPick(this); }
+           
+        }
+       
+        
     }
     // �������� �� ��, ����� ����������: ����� ��� ������.
     // ��� ���� ����� ���������� �������� �����, ������� ��������� ��� �������������� �������.
@@ -216,13 +231,12 @@ public class movement : MonoBehaviour
         } else square.color = Color.white;
 #endif
 
-        if (action.time_since_blink > blinking_offset_when_screen_starts_fading )
+        if (action.time_since_blink > blinking_offset_when_screen_starts_fading)
         {
             Color b = blinding_screen_renderer.color;
             b.a = ((float)(1 - (float)(blink_genkai - (action.time_since_blink - blinking_offset_when_screen_starts_fading)) / blink_fading_speed));
             blinding_screen_renderer.color = b;
         }
-
 
         if (Input.GetKeyDown(_right_leg))
         {
@@ -244,7 +258,6 @@ public class movement : MonoBehaviour
             blinding_screen_renderer.color = b;
             action.blink(); 
         }
-
 
         if (Input.GetKeyDown(_regain_posture))
         {

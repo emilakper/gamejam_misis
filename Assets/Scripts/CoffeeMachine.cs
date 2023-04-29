@@ -1,12 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+
+
+
 
 public class CoffeeMachine : MonoBehaviour, Actionable
 {
-    public KeyCode _action_button = KeyCode.A;
+    
+
+
+    public KeyCode[] _action_buttons = { movement._left_arm, movement._right_arm };
+
+    public Pickable cup;
     void Start()
     {
+        
     }
     void Update()
     {
@@ -15,14 +25,18 @@ public class CoffeeMachine : MonoBehaviour, Actionable
 
     public void actOn(movement player, KeyCode action_key)
     {
-        if (Input.GetKeyDown(action_key))
+
+        foreach (KeyCode _action_button in _action_buttons)
         {
-            print("I am coffee Machineeee\n");
+            if (Input.GetKeyDown(_action_button))
+            {
+                player.pickUp(cup, _action_button);
+            } 
         }
-    }
+        }
     public void preActOn(movement player)
     {
-        player._action_button = _action_button;
+        
 
         // Ui.popUp(KeyCode.A);
     }

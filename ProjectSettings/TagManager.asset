@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: furniture
+    uniqueID: 4022061061
+    locked: 0
+  - name: tables
+    uniqueID: 330203531
+    locked: 0

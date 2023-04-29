@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1986209051160561794}
   - component: {fileID: 4488860758858909466}
   - component: {fileID: 277361626500234913}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ConcreteActionable
   m_TagString: Actionable
   m_Icon: {fileID: 0}
@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33940adb967e21945acbf2fdef46e1cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _action_button: 97
 --- !u!50 &4488860758858909466
 Rigidbody2D:
   serializedVersion: 4
@@ -130,7 +131,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

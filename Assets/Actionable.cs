@@ -6,8 +6,8 @@ using UnityEngine;
 
 public interface Actionable
 {
-    public void actOn(movement player);
     public void preActOn(movement player);
+    public void actOn(movement player, KeyCode action_key);
     public void postActOn(movement player);
 }
 

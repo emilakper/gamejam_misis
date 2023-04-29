@@ -221,9 +221,9 @@ public class movement : MonoBehaviour
         }
 
 
-        if (_action_button != KeyCode.None && Input.GetKeyDown(_action_button) && is_colliding) 
+        if (is_colliding) 
         {
-            current_action.actOn(this);
+            current_action.actOn(this, _action_button);
             
         }
 
@@ -241,7 +241,8 @@ public class movement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         is_colliding = true;
-        if (other.gameObject.tag == "Actionable")
+        
+        if (other.gameObject.layer == LayerMask.NameToLayer("Actions"))
         {
             Actionable act = other.gameObject.GetComponent<Actionable>();
             act.preActOn(this);

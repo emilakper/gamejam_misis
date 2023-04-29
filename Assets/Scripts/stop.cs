@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class stop : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class stop : MonoBehaviour
 
     private void Start()
     {
-        seat = GameObject.Find("Seat");
+        seat = transform.GetChild(0).gameObject;
     }
 
 
@@ -25,7 +26,7 @@ public class stop : MonoBehaviour
 
     public void onFreed()
     {
-        print("freed");
+        isEmpty = true;
     }
 
     bool isEmpty = true;

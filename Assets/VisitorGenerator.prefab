@@ -44,6 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cc3a18e6a27a0641aef4b46989b0fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  number_of_visitors: 4
-  direction_of_the_line: -1
-  visitor: {fileID: 0}
+  time_before_next_visitor: 0
+  visitor: {fileID: 8210410785576314351, guid: 4d819a9995c3f1d4d8bc92e5e58ba1cb, type: 3}

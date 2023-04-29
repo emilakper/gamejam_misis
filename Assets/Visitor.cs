@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using System.Text;
 using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -8,6 +9,8 @@ using UnityEngine;
 public class Visitor : MonoBehaviour
 {
 
+    public bool is_active = false;
+    
     stop occupied = null;
 
     public void occupy(stop free_chair)
@@ -59,10 +62,10 @@ public class Visitor : MonoBehaviour
         {
             wait_time += Time.deltaTime;
         }
-
+        
         public CoffeeType coffee;
         private double wait_time = 0;
-        public double max_wait_time;
+        public double max_wait_time = 0;
         public double tip_delta_time;
 
         static CoffeeType[] available_coffees = { CoffeeType.Espresso, CoffeeType.Cappuccino };
@@ -76,12 +79,14 @@ public class Visitor : MonoBehaviour
     public double time_before_ordering = 0;
     public double order_wait = 10;
 
-    public double counter_before_ordering;
+    private double counter_before_ordering;
 
 
     public Vector3 direction = Vector3.forward;
     void FixedUpdate()
     {
+        if (!is_active) return;
+
         if (!is_occupied())
         {
             float timeSinceLastFrame = Time.deltaTime;
@@ -92,26 +97,29 @@ public class Visitor : MonoBehaviour
         }
         else
         {
-            print(current_order.get_time());
-            counter_before_ordering += time_before_ordering;
-            if (counter_before_ordering < time_before_ordering)
+            
+
+            if (counter_before_ordering > time_before_ordering)
             {
-                //return;
-            }
-            if (current_order == null)
-            {
-                current_order = Order.make_new_order();
+
+                if (current_order.max_wait_time == 0)
+                {
+                    current_order = Order.make_new_order();
+                }
+                else if (current_order != null)
+                {
+                    current_order.increase_time();
+                    if (current_order.get_time() > current_order.max_wait_time)
+                    {
+                        free_seat();
+
+                    }
+                }
             }
             else
             {
-                current_order.increase_time();
-                if (current_order.get_time() > current_order.max_wait_time) 
-                {
-                    free_seat();
-                
-                }
+                counter_before_ordering += Time.deltaTime;
             }
-            
                  
 
         }

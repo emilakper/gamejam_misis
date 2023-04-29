@@ -18,7 +18,7 @@ public class CoffeeType
         return new(name_, sprite_path_, base_reward_, base_wait_time_);
     }
 
-    private string name { get; }
+    public string name { get; }
     private string sprite_path { get; }
     public int base_reward { get; }
     public double base_wait_time { get; }

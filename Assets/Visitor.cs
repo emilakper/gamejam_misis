@@ -16,7 +16,11 @@ public class Visitor : MonoBehaviour
     public void occupy(stop free_chair)
     {
         occupied = free_chair;
+#if DEBUG
+        time_before_ordering = 1;
+#else
         time_before_ordering = Random.Range(0, 30);
+#endif 
         transform.position = free_chair.seat.transform.position;
     }
 
@@ -29,6 +33,7 @@ public class Visitor : MonoBehaviour
     public void free_seat()
     {
         occupied.onFreed();
+        direction = -direction;
         occupied = null;
     }
 
@@ -83,6 +88,24 @@ public class Visitor : MonoBehaviour
 
 
     public Vector3 direction = Vector3.forward;
+    private Vector3 default_direction;
+    private float default_speed;
+    private void Start()
+    {
+        default_direction = direction;
+        default_speed = speed;
+    }
+
+    public void res()
+    {
+        current_order.max_wait_time = 0;
+        direction = default_direction;
+        speed = default_speed;
+        time_before_ordering = 0; 
+        order_wait = 10;
+        is_active= false;
+    }
+
     void FixedUpdate()
     {
         if (!is_active) return;
@@ -105,6 +128,9 @@ public class Visitor : MonoBehaviour
                 if (current_order.max_wait_time == 0)
                 {
                     current_order = Order.make_new_order();
+#if DEBUG
+                    current_order.max_wait_time = 2;
+#endif
                 }
                 else if (current_order != null)
                 {
@@ -124,5 +150,16 @@ public class Visitor : MonoBehaviour
 
         }
 
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision == null) return;
+        if (collision.tag == "ExitDoor")
+        {
+            ExitDoor a = collision.gameObject.GetComponent<ExitDoor>();
+            a.notify_generator(this);
+        }
     }
 }

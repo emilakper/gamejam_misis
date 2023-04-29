@@ -36,7 +36,15 @@ public class visitors : MonoBehaviour
     }
 
 
-
+    public void left(Visitor vis)
+    {
+        int indx = visitors_left.FindIndex(x => x.name == vis.name);
+        GameObject tmp = visitors_left[visitors_left.Count - 1]; ;
+        visitors_left[visitors_left.Count - 1] = visitors_left[indx];
+        visitors_left[indx] = tmp;
+        visitors_left[visitors_left.Count - 1].gameObject.GetComponent<Visitor>().res();
+        currently_spawned_visitors_c -= 1;
+    }
     /*
      *  Visitor begins his movement
      *  Time before next visitor is updated

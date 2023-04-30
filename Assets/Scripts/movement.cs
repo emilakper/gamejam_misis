@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -8,9 +9,40 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
+
+    public int reward = 0;
+    public class FinishedCup
+    {
+        public bool is_ready() { return (coffee != null); }
+
+        public void set_coffee(CoffeeType other) { coffee = other; }
+
+        public CoffeeType get_coffee() { return coffee; }
+        
+        
+
+        private CoffeeType? coffee = null;
+
+        public CupOfCoffee pre_cup = new CupOfCoffee();
+    }
+
+    public FinishedCup order_cup = new FinishedCup();
+
+    public void add_espresso()
+    {
+        order_cup.pre_cup.ingredients.Add(Ingredients.Espresso);
+    } 
+
+    public void add_milk()
+    {
+        order_cup.pre_cup.ingredients.Add(Ingredients.Milk);
+    }
+
 #if DEBUG
     SpriteRenderer square;
 #endif
+
+    private Animator maxatik;
 
     private SpriteRenderer blinding_screen_renderer;
 
@@ -25,10 +57,10 @@ public class movement : MonoBehaviour
     public static KeyCode _change_direction = KeyCode.H;
 
 
-    public KeyCode _action_button;
+    public KeyCode _action_button = KeyCode.X;
 
 
-    Vector3 direction = Vector3.right;
+    public Vector3 direction = Vector3.right;
 
     // ����� �������, ������� ��������� ����� �� ������.
     public double breath_genkai = 10;
@@ -43,7 +75,7 @@ public class movement : MonoBehaviour
 
     private Actionable current_action;
 
-
+    
     // !!!�� �������!!! �������� �����.
     private class Arm<T>
     {
@@ -80,11 +112,11 @@ public class movement : MonoBehaviour
     }
     // �������� �� ��, ����� ����������: ����� ��� ������.
     // ��� ���� ����� ���������� �������� �����, ������� ��������� ��� �������������� �������.
-    enum Limb : System.UInt16 { Right = 0x0, Left = 0xFFFF}
+    public enum Limb : System.UInt16 { Right = 0x0, Left = 0xFFFF}
 
     // ������ � ���� ��� ������� ��������, ����� ������� � ��� �����.
     // !!!������ ����� ����� �������������!!!
-    class Actions
+    public class Actions
     {
         // ����� ���� � ���� ���� ������������ ����������
         public Limb leg = Limb.Right;
@@ -158,8 +190,10 @@ public class movement : MonoBehaviour
         }
     }
 
-    private Actions action = new();
+    public Actions action = new();
 
+
+    Blinking blink_obj = null;
 
     /// <summary>
     /// ������� ���������, ���� ������ ���� �� ����� ��, ��� ����������.
@@ -204,12 +238,15 @@ public class movement : MonoBehaviour
     {
 #if DEBUG
         square = GetComponent<SpriteRenderer>();
+        order_cup.set_coffee(CoffeeType.Cappuccino);
 #endif
-
-        blinding_screen_renderer = GameObject.Find("BlindingScreen").GetComponent<SpriteRenderer>();
-        Color new_color = blinding_screen_renderer.color;
-        new_color.a = 0;
-        blinding_screen_renderer.color = new_color; 
+        //maxatik = transform.GetChild(0).gameObject.GetComponent<Animator>();
+        blink_obj = FindObjectOfType<Blinking>();
+        Color tmp = blink_obj.GetComponent<SpriteRenderer>().color;
+        tmp.a = 0;
+        blink_obj.GetComponent<SpriteRenderer>().color = tmp;
+        //maxatik.Play("Idle");
+        
     }
 
 
@@ -219,7 +256,7 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
 #if DEBUG
 
         // ������� ����� ����� ������� � ����������� �� ����, ��� ����� �� �� �����.
@@ -231,31 +268,30 @@ public class movement : MonoBehaviour
         } else square.color = Color.white;
 #endif
 
-        if (action.time_since_blink > blinking_offset_when_screen_starts_fading)
-        {
-            Color b = blinding_screen_renderer.color;
-            b.a = ((float)(1 - (float)(blink_genkai - (action.time_since_blink - blinking_offset_when_screen_starts_fading)) / blink_fading_speed));
-            blinding_screen_renderer.color = b;
-        }
-
+       
         if (Input.GetKeyDown(_right_leg))
         {
             moveLeg(direction, action.leg, Limb.Right);
+           // maxatik.Play("right_after_left");
         }
         else if (Input.GetKeyDown(_left_leg))
         {
             moveLeg(direction, action.leg, Limb.Left);
+            //maxatik.Play("left_after_raight");
         }
 
+        // Try
         if (Input.GetKeyDown(_change_direction)) direction = -direction;
 
         if (Input.GetKeyDown(_breath)) action.breath();
 
         if (Input.GetKeyDown(_blink)) 
         {
-            Color b = blinding_screen_renderer.color;
-            b.a = 0;
-            blinding_screen_renderer.color = b;
+            
+            if (blink_obj)
+            {
+                blink_obj.res();
+            }
             action.blink(); 
         }
 
@@ -269,6 +305,12 @@ public class movement : MonoBehaviour
                 action.startBreathing();
             }
         }
+
+        if (Input.GetKeyUp(_regain_posture))
+        {
+            action.standing = false;
+            action.stopBreathing();
+        }
         // �� ��������� ����, ������� ��� ��������� ����� �� ������, �� ��������� ���, � ����� ���������� ������ �������
         if (action.time_since_breath > (breath_genkai - Mathf.Epsilon))
         {
@@ -280,6 +322,7 @@ public class movement : MonoBehaviour
 
         if (is_colliding) 
         {
+           
             current_action.actOn(this, _action_button);
             
         }
@@ -297,10 +340,11 @@ public class movement : MonoBehaviour
   
     private void OnTriggerEnter2D(Collider2D other)
     {
-        is_colliding = true;
         
-        if (other.gameObject.layer == LayerMask.NameToLayer("Actions"))
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Actions" || LayerMask.LayerToName(other.gameObject.layer) == "OrderTrigger")
         {
+            
+            is_colliding = true;
             Actionable act = other.gameObject.GetComponent<Actionable>();
             act.preActOn(this);
             current_action = act;
@@ -312,7 +356,6 @@ public class movement : MonoBehaviour
     {
         current_action.postActOn(this);
         is_colliding = false;
-        _action_button = KeyCode.None;
         current_action = null;
     }
 }

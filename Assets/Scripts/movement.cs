@@ -130,7 +130,7 @@ public class movement : MonoBehaviour
         // ����� �� ��������
         private bool breathing = true;
         // � ���������� �� ��������.
-        public bool standing = true;
+        public bool standing = false;
 
         /// <summary>
         /// �������� ����� ��������.

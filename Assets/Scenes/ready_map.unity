@@ -245,6 +245,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3060436867132726285, guid: 32ba5c05d850ca04f81164fecc5a1ef9, type: 3}
+      propertyPath: _action_button
+      value: 120
+      objectReference: {fileID: 0}
     - target: {fileID: 5500284927597075965, guid: 32ba5c05d850ca04f81164fecc5a1ef9, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1564,7 +1568,8 @@ GameObject:
   - component: {fileID: 938058207}
   - component: {fileID: 938058208}
   - component: {fileID: 938058209}
-  m_Layer: 0
+  - component: {fileID: 938058210}
+  m_Layer: 6
   m_Name: emptycup (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1580,7 +1585,7 @@ Transform:
   m_GameObject: {fileID: 938058206}
   m_LocalRotation: {x: -0, y: -0, z: -0.04316781, w: 0.99906784}
   m_LocalPosition: {x: 27.930588, y: 4.024368, z: 0}
-  m_LocalScale: {x: 0.75281525, y: 0.75281525, z: 0.7528152}
+  m_LocalScale: {x: 0.7461603, y: 0.7461603, z: 0.74616027}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1892478420}
@@ -1650,7 +1655,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1575cb278c21ca44a7f5ad955d61e3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cup: {fileID: 0}
+  cup: {fileID: 8836642731098868790, guid: 3c9a6bc799dcae448bbc113d45ae5d97, type: 3}
+--- !u!61 &938058210
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938058206}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.059190392, y: 0.070586205}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.76, y: 3.6}
+    newSize: {x: 2.76, y: 3.6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5.3500013, y: 3.7411723}
+  m_EdgeRadius: 0
 --- !u!1001 &942727270
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,17 +1,16 @@
 using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
-
-
-
-
-
+using UnityEngine.UI;
 
 public class movement : MonoBehaviour
 {
 
     public int reward = 0;
+
+    Canvas canvas;
     public class FinishedCup
     {
         public bool is_ready() { return (coffee != null); }
@@ -238,6 +237,7 @@ public class movement : MonoBehaviour
         }
     }
 
+    TMPro.TMP_Text text_mesh;
 
     // Start is called before the first frame update
     void Start()
@@ -252,7 +252,9 @@ public class movement : MonoBehaviour
         tmp.a = 0;
         blink_obj.GetComponent<SpriteRenderer>().color = tmp;
         //maxatik.Play("Idle");
-        
+        text_mesh = GameObject.Find("Reward").transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>();
+        //print(GameObject.Find("Reward").transform.GetChild(0).GetChild(0).);
+        //print(text_mesh.name);
     }
 
 
@@ -279,6 +281,8 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        text_mesh.text = reward.ToString();
         
 #if DEBUG
 

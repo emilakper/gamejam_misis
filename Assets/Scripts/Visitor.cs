@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using System.IO;
 using System.Text;
 using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
@@ -40,6 +42,7 @@ public class Visitor : MonoBehaviour
     [System.Serializable]
     public class Order
     {
+        public float tip_mult = 0.25F;
         private Order(CoffeeType coff)
         {
             coffee = coff;
@@ -48,13 +51,13 @@ public class Visitor : MonoBehaviour
         }
         static public Order make_new_order()
         {
-            return new Order(available_coffees[Random.Range(0, available_coffees.Length)]);
+            return new Order(available_coffees[UnityEngine.Random.Range(0, available_coffees.Length)]);
         }
 
         //TODO: 
         public int calculacte_reward()
         {
-            return coffee.base_reward;
+            return coffee.base_reward + (int)(coffee.base_reward * tip_mult) * Convert.ToInt32(wait_time < tip_delta_time);
         }
 
 

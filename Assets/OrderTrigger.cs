@@ -33,6 +33,8 @@ public class OrderTrigger : MonoBehaviour, Actionable
         {
             player.reward += check_order(player.order_cup.get_coffee());
             print(player.reward);
+            gameObject.SetActive(false);
+            parent_seat._visitor.free_seat();
         }
     }
     public void preActOn(movement player)

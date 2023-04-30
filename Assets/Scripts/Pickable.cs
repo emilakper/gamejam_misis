@@ -5,5 +5,5 @@ using UnityEngine;
 abstract public class Pickable : MonoBehaviour 
 {
     public string PrefabToSpawnName;
-    abstract public void onPick(movement obj);
+    abstract public GameObject onPick(movement obj);
 }

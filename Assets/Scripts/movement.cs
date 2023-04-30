@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -77,12 +78,12 @@ public class movement : MonoBehaviour
 
     
     // !!!�� �������!!! �������� �����.
-    private class Arm<T>
+    public class Arm<T>
     {
         public Arm(KeyCode assign_key) { assigned_key = assign_key; }   
         public bool is_empty() { return !holds_anything; }
         public void take(T obj) { held_object = obj; holds_anything = true; }
-
+        public T get() { return held_object; }
         public KeyCode get_assigned_key() { return assigned_key; }
 
         private T held_object = default(T);
@@ -91,20 +92,25 @@ public class movement : MonoBehaviour
 
     }
 
-    private Arm<Pickable> left_arm = new(_left_arm);
-    private Arm<Pickable> right_arm = new(_right_arm);
+    public Arm<Pickable> left_arm = new(_left_arm);
+    public Arm<Pickable> right_arm = new(_right_arm);
 
 
     public void pickUp(Pickable obj, KeyCode which_arm)
     {
         if (which_arm == left_arm.get_assigned_key())
         {
-            if (left_arm.is_empty()) { left_arm.take(obj); obj.onPick(this); }
+            if (left_arm.is_empty()) { left_arm.take(obj.onPick(this).GetComponent<Pickable>());
+                left_arm.get().GetComponent<SpriteRenderer>().sortingOrder = (int)(GetComponent<SpriteRenderer>().sortingOrder - direction.x);
+            }
             
         }
         else if (which_arm == right_arm.get_assigned_key()) 
         {
-            if (right_arm.is_empty()) { right_arm.take(obj); obj.onPick(this); }
+            if (right_arm.is_empty()) { right_arm.take(obj.onPick(this).GetComponent<Pickable>());
+
+                right_arm.get().GetComponent<SpriteRenderer>().sortingOrder = (int)(GetComponent<SpriteRenderer>().sortingOrder + direction.x);
+            }
            
         }
        
@@ -130,7 +136,7 @@ public class movement : MonoBehaviour
         // ����� �� ��������
         private bool breathing = true;
         // � ���������� �� ��������.
-        public bool standing = true;
+        public bool standing = false;
 
         /// <summary>
         /// �������� ����� ��������.
@@ -252,7 +258,24 @@ public class movement : MonoBehaviour
 
     // Returns time since last blink
 
-
+    void turn()
+    {
+        GetComponent<SpriteRenderer>().flipX = !GetComponent<SpriteRenderer>().flipX;
+        if (!left_arm.is_empty())
+        {
+            left_arm.get().GetComponent<SpriteRenderer>().flipX = !left_arm.get().GetComponent<SpriteRenderer>().flipX;
+            left_arm.get().GetComponent<SpriteRenderer>().sortingOrder = (int)(GetComponent<SpriteRenderer>().sortingOrder - direction.x);
+        }
+        if (!right_arm.is_empty())
+        {
+            right_arm.get().GetComponent<SpriteRenderer>().flipX = !right_arm.get().GetComponent<SpriteRenderer>().flipX;
+            right_arm.get().GetComponent<SpriteRenderer>().sortingOrder = (int)(GetComponent<SpriteRenderer>().sortingOrder + direction.x);
+        }
+            if (!left_arm.is_empty() && !right_arm.is_empty())
+        {
+            left_arm.get().GetComponent<SpriteRenderer>().sortingOrder = right_arm.get().GetComponent<SpriteRenderer>().sortingOrder;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -281,7 +304,7 @@ public class movement : MonoBehaviour
         }
 
         // Try
-        if (Input.GetKeyDown(_change_direction)) direction = -direction;
+        if (Input.GetKeyDown(_change_direction)) { direction = -direction; turn(); }
 
         if (Input.GetKeyDown(_breath)) action.breath();
 

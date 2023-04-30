@@ -161,9 +161,10 @@ public class Visitor : MonoBehaviour
                     }
 #if DEBUG
                         current_order.max_wait_time = 10;
-                        current_order.coffee = CoffeeType.Cappuccino;
-
 #endif
+                    current_order.coffee = CoffeeType.Cappuccino;
+
+
 
                     timer.time_to_wait = current_order.max_wait_time;
                     timer.gameObject.SetActive(true);

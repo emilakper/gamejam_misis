@@ -13,7 +13,7 @@ public class Visitor : MonoBehaviour
 {
     public bool is_leaving = false;
     public bool is_active = false;
-
+    TIMER timer;
     stop occupied = null;
 
     public void occupy(stop free_chair)
@@ -21,6 +21,7 @@ public class Visitor : MonoBehaviour
         order_canvas = free_chair.transform.GetChild(2).transform.GetChild(0).GetComponent<Canvas>();
         img_cap = order_canvas.transform.GetChild(0).GetComponent<Image>();
         img_esp = order_canvas.transform.GetChild(1).GetComponent<Image>();
+        timer = free_chair.transform.GetChild(3).GetComponent<TIMER>();
 
         occupied = free_chair;
 #if DEBUG
@@ -147,6 +148,9 @@ public class Visitor : MonoBehaviour
                 {
                     current_order = Order.make_new_order();
 
+                    
+                    timer.is_active = true;
+
                     if (current_order.coffee.name == CoffeeType.Cappuccino.name)
                     {
                         img_cap.gameObject.SetActive(true);
@@ -157,10 +161,13 @@ public class Visitor : MonoBehaviour
                     }
 #if DEBUG
                         current_order.max_wait_time = 10;
-                    current_order.coffee = CoffeeType.Cappuccino;
-                    print(current_order.coffee.name);
+                        current_order.coffee = CoffeeType.Cappuccino;
 
 #endif
+
+                    timer.time_to_wait = current_order.max_wait_time;
+                    timer.gameObject.SetActive(true);
+                    timer.res();
                 }
                 else if (current_order != null)
                 {

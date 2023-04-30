@@ -23,7 +23,7 @@ public class CoffeeMachine : MonoBehaviour, Actionable
     {
 
        
-            if (Input.GetKeyDown(action_key))
+            if (Input.GetKeyDown(action_key) && (!player.left_arm.is_empty() || !player.right_arm.is_empty()))
             {
                 player.add_espresso();
             } 

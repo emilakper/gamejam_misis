@@ -6,8 +6,8 @@ public class MilkShelf : MonoBehaviour, Actionable
 {
     public void preActOn(movement mov) { print("preacton"); }
     public void actOn(movement mov, KeyCode key) 
-    {
-        if (Input.GetKeyDown(key))
+    { 
+        if (Input.GetKeyDown(key) && (!mov.left_arm.is_empty() || !mov.right_arm.is_empty()))
         {
             mov.add_milk();
         }

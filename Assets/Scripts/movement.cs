@@ -377,6 +377,7 @@ public class movement : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (current_action == null) return;
         current_action.postActOn(this);
         is_colliding = false;
         current_action = null;

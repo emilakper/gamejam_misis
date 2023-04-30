@@ -25,7 +25,6 @@ public class CoffeeMachine : MonoBehaviour, Actionable
        
             if (Input.GetKeyDown(action_key))
             {
-            
                 player.add_espresso();
             } 
         

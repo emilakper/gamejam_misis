@@ -190,6 +190,7 @@ public class Visitor : MonoBehaviour
         {
             if (direction != default_direction)
             {
+                print("Hello!");
                 ExitDoor a = collision.gameObject.GetComponent<ExitDoor>();
                 a.notify_generator(this);
 

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MilkShelf : MonoBehaviour, Actionable
 {
-    public void preActOn(movement mov) { }
+    public void preActOn(movement mov) { print("preacton"); }
     public void actOn(movement mov, KeyCode key) 
-    { 
+    {
         if (Input.GetKeyDown(key))
         {
             mov.add_milk();

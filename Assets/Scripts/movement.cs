@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
@@ -8,7 +9,34 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    
+   
+
+    public class FinishedCup
+    {
+        public bool is_ready() { return (coffee != null);  }
+
+        public void set_coffee(CoffeeType other) { coffee = other; }
+
+        
+        
+
+        public CoffeeType? coffee = null;
+
+        public CupOfCoffee pre_cup = new CupOfCoffee();
+    }
+
+    public FinishedCup order_cup = new FinishedCup();
+
+    public void add_espresso()
+    {
+        order_cup.pre_cup.ingredients.Add(Ingredients.Espresso);
+    } 
+
+    public void add_milk()
+    {
+        order_cup.pre_cup.ingredients.Add(Ingredients.Milk);
+    }
+
 #if DEBUG
     SpriteRenderer square;
 #endif
@@ -28,7 +56,7 @@ public class movement : MonoBehaviour
     public static KeyCode _change_direction = KeyCode.H;
 
 
-    public KeyCode _action_button;
+    public KeyCode _action_button = KeyCode.X;
 
 
     public Vector3 direction = Vector3.right;
@@ -210,9 +238,12 @@ public class movement : MonoBehaviour
 #if DEBUG
         square = GetComponent<SpriteRenderer>();
 #endif
-        maxatik = transform.GetChild(0).gameObject.GetComponent<Animator>();
+        //maxatik = transform.GetChild(0).gameObject.GetComponent<Animator>();
         blink_obj = FindObjectOfType<Blinking>();
-        maxatik.Play("Idle");
+        Color tmp = blink_obj.GetComponent<SpriteRenderer>().color;
+        tmp.a = 0;
+        blink_obj.GetComponent<SpriteRenderer>().color = tmp;
+        //maxatik.Play("Idle");
         
     }
 
@@ -239,12 +270,12 @@ public class movement : MonoBehaviour
         if (Input.GetKeyDown(_right_leg))
         {
             moveLeg(direction, action.leg, Limb.Right);
-            maxatik.Play("right_after_left");
+           // maxatik.Play("right_after_left");
         }
         else if (Input.GetKeyDown(_left_leg))
         {
             moveLeg(direction, action.leg, Limb.Left);
-            maxatik.Play("left_after_raight");
+            //maxatik.Play("left_after_raight");
         }
 
         // Try
@@ -283,6 +314,7 @@ public class movement : MonoBehaviour
 
         if (is_colliding) 
         {
+           
             current_action.actOn(this, _action_button);
             
         }
@@ -300,10 +332,11 @@ public class movement : MonoBehaviour
   
     private void OnTriggerEnter2D(Collider2D other)
     {
-        is_colliding = true;
         
-        if (other.gameObject.layer == LayerMask.NameToLayer("Actions"))
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Actions")
         {
+            
+            is_colliding = true;
             Actionable act = other.gameObject.GetComponent<Actionable>();
             act.preActOn(this);
             current_action = act;
@@ -315,7 +348,6 @@ public class movement : MonoBehaviour
     {
         current_action.postActOn(this);
         is_colliding = false;
-        _action_button = KeyCode.None;
         current_action = null;
     }
 }

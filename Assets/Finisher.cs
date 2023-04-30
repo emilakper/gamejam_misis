@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-
-
-
-public class CoffeeMachine : MonoBehaviour, Actionable
+public class Finisher : MonoBehaviour, Actionable
 {
- 
-    public Pickable cup;
     void Start()
     {
-        
+
     }
     void Update()
     {
@@ -21,18 +15,19 @@ public class CoffeeMachine : MonoBehaviour, Actionable
 
     public void actOn(movement player, KeyCode action_key)
     {
-
-       
-            if (Input.GetKeyDown(action_key))
+        if (Input.GetKeyDown(action_key))
+        {
+            if (!player.order_cup.is_ready())
             {
-            print("a");
-                player.add_espresso();
-            } 
-        
+                player.order_cup.set_coffee(player.order_cup.pre_cup.finish_coffee());
+                print(player.order_cup.coffee.name);
+
+            }
+        }
     }
     public void preActOn(movement player)
     {
-        
+
 
         // Ui.popUp(KeyCode.A);
     }
@@ -44,3 +39,4 @@ public class CoffeeMachine : MonoBehaviour, Actionable
     }
 
 }
+

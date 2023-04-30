@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using TreeEditor;
+
 [System.Serializable]
 public class CoffeeType
 {
@@ -25,6 +28,35 @@ public class CoffeeType
 
     public static readonly CoffeeType Espresso = new CoffeeType("Espresso", "espresso.png", 100, 90);
     public static readonly CoffeeType Cappuccino = new CoffeeType("Cappuccino", "cappuccino.png", 150, 150);
+
+    // Template for trash object
+    public static readonly CoffeeType Trash = new CoffeeType("Trash", "trash.png", 0, 0);
 }
 
 
+[System.Serializable]
+public enum Ingredients { Espresso = 0x1, Milk = 0x2  }
+[System.Serializable]
+public class CupOfCoffee
+{
+    public CoffeeType finish_coffee()
+    {
+        int sum = 0;
+        foreach (Ingredients i in ingredients)
+        {
+            sum |= (int)i;
+        }
+        if (sum == 0x1)
+        {
+            return CoffeeType.Espresso;
+        }
+        else if (sum == 0x3)
+        {
+            return CoffeeType.Cappuccino;
+        }
+
+        return CoffeeType.Trash;
+        
+    }
+    public List<Ingredients> ingredients = new List<Ingredients>();
+}

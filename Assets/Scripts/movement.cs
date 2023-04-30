@@ -305,6 +305,12 @@ public class movement : MonoBehaviour
                 action.startBreathing();
             }
         }
+
+        if (Input.GetKeyUp(_regain_posture))
+        {
+            action.standing = false;
+            action.stopBreathing();
+        }
         // �� ��������� ����, ������� ��� ��������� ����� �� ������, �� ��������� ���, � ����� ���������� ������ �������
         if (action.time_since_breath > (breath_genkai - Mathf.Epsilon))
         {

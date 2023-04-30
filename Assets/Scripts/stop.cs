@@ -8,12 +8,14 @@ public class stop : MonoBehaviour
 {
 
     public GameObject seat;
+    public GameObject order_trigger;
 
-    private Visitor _visitor; 
+    public Visitor _visitor; 
 
     private void Start()
     {
         seat = transform.GetChild(0).gameObject;
+        order_trigger = transform.GetChild(1).gameObject;
     }
 
 
@@ -21,7 +23,8 @@ public class stop : MonoBehaviour
     {
         _visitor = visitor;
         visitor.occupy(this);
-        
+        // TODO: activate later maybe?
+        order_trigger.gameObject.SetActive(true);
     }
 
     public void onFreed()

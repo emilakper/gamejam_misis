@@ -129,7 +129,10 @@ public class Visitor : MonoBehaviour
                 {
                     current_order = Order.make_new_order();
 #if DEBUG
-                    current_order.max_wait_time = 2;
+                    current_order.max_wait_time = 10;
+                    current_order.coffee = CoffeeType.Cappuccino;
+                    print(current_order.coffee.name);
+
 #endif
                 }
                 else if (current_order != null)

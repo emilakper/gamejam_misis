@@ -20,7 +20,6 @@ public class Finisher : MonoBehaviour, Actionable
             if (!player.order_cup.is_ready())
             {
                 player.order_cup.set_coffee(player.order_cup.pre_cup.finish_coffee());
-                print(player.order_cup.coffee.name);
 
             }
         }

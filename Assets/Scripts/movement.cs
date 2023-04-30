@@ -9,18 +9,19 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-   
 
+    public int reward = 0;
     public class FinishedCup
     {
-        public bool is_ready() { return (coffee != null);  }
+        public bool is_ready() { return (coffee != null); }
 
         public void set_coffee(CoffeeType other) { coffee = other; }
 
+        public CoffeeType get_coffee() { return coffee; }
         
         
 
-        public CoffeeType? coffee = null;
+        private CoffeeType? coffee = null;
 
         public CupOfCoffee pre_cup = new CupOfCoffee();
     }
@@ -237,6 +238,7 @@ public class movement : MonoBehaviour
     {
 #if DEBUG
         square = GetComponent<SpriteRenderer>();
+        order_cup.set_coffee(CoffeeType.Cappuccino);
 #endif
         //maxatik = transform.GetChild(0).gameObject.GetComponent<Animator>();
         blink_obj = FindObjectOfType<Blinking>();
@@ -333,7 +335,7 @@ public class movement : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         
-        if (LayerMask.LayerToName(other.gameObject.layer) == "Actions")
+        if (LayerMask.LayerToName(other.gameObject.layer) == "Actions" || LayerMask.LayerToName(other.gameObject.layer) == "OrderTrigger")
         {
             
             is_colliding = true;

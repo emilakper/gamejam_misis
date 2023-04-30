@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class Visitor : MonoBehaviour
 {
-
+    public bool is_leaving = false;
     public bool is_active = false;
 
     stop occupied = null;
@@ -37,6 +37,7 @@ public class Visitor : MonoBehaviour
         occupied.onFreed();
         direction = -direction;
         occupied = null;
+        is_leaving = true;
     }
 
     [System.Serializable]

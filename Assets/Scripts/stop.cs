@@ -21,13 +21,16 @@ public class stop : MonoBehaviour
 
     void grab_visitor(Visitor visitor)
     {
-        _visitor = visitor;
-        visitor.occupy(this);
-        // TODO: activate later maybe?
-        order_trigger.gameObject.SetActive(true);
-    }
+        if (!visitor.is_leaving)
+        {
+            _visitor = visitor;
+            visitor.occupy(this);
+            // TODO: activate later maybe?
+            order_trigger.gameObject.SetActive(true);
 
-    public void onFreed()
+        }
+    }
+        public void onFreed()
     {
         isEmpty = true;
     }

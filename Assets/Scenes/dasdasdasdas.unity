@@ -449,7 +449,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6577672974691569085, guid: 94232822fe21e324c9b74dca3fae736d, type: 3}
       propertyPath: number_of_visitors
-      value: 1
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -6577672974691569085, guid: 94232822fe21e324c9b74dca3fae736d, type: 3}
       propertyPath: right_border_of_waiting
@@ -516,9 +516,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2725128854993093206, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_Size.x
+      value: 50.68318
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725128854993093206, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_Size.y
+      value: 67.02635
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725128854993093206, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_Offset.x
+      value: -1.3074532
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725128854993093206, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_Offset.y
+      value: 3.9223576
+      objectReference: {fileID: 0}
     - target: {fileID: 4832739755664715467, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
       propertyPath: m_Name
       value: Chair
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307960995252208705, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6151203535845774953, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
       propertyPath: m_RootOrder
@@ -581,9 +601,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2725128854993093206, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_Size.x
+      value: 52.774673
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725128854993093206, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_Size.y
+      value: 66.79687
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725128854993093206, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_Offset.x
+      value: 2.2134666
+      objectReference: {fileID: 0}
+    - target: {fileID: 2725128854993093206, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_Offset.y
+      value: 2.7415342
+      objectReference: {fileID: 0}
     - target: {fileID: 4832739755664715467, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
       propertyPath: m_Name
       value: Chair (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307960995252208705, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5307960995252208705, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6151203535845774953, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
       propertyPath: m_RootOrder
@@ -628,10 +672,6 @@ PrefabInstance:
     - target: {fileID: 6151203535845774953, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6803265927242903304, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c45528af6831c9c4e815eca5c10d6905, type: 3}

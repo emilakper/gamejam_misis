@@ -6,13 +6,13 @@ using UnityEngine;
 
 
 
-public class CoffeeMachine : MonoBehaviour, Actionable
+public class CoffeeCup : MonoBehaviour, Actionable
 {
- 
+
     public Pickable cup;
     void Start()
     {
-        
+
     }
     void Update()
     {
@@ -22,17 +22,17 @@ public class CoffeeMachine : MonoBehaviour, Actionable
     public void actOn(movement player, KeyCode action_key)
     {
 
-       
-            if (Input.GetKeyDown(action_key))
-            {
-            
-                player.add_espresso();
-            } 
-        
+
+        if (Input.GetKeyDown(action_key))
+        {
+
+            player.pickUp(cup, KeyCode.J);
+        }
+
     }
     public void preActOn(movement player)
     {
-        
+
 
         // Ui.popUp(KeyCode.A);
     }
@@ -44,3 +44,5 @@ public class CoffeeMachine : MonoBehaviour, Actionable
     }
 
 }
+
+

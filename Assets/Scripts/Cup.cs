@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,9 +20,13 @@ public class Cup : Pickable
         
     }
 
-    override public void onPick(movement obj) 
+    override public GameObject onPick(movement obj) 
     {
-        obj.GetComponent<SpriteRenderer>().color = Color.yellow;
-        Instantiate(to_instance);
+        GameObject instance = Instantiate(to_instance);
+        instance.transform.parent = obj.transform;
+        instance.transform.localPosition = Vector3.zero;
+        instance.GetComponent<SpriteRenderer>().flipX = !Convert.ToBoolean(obj.direction.x + 1);
+       
+        return instance;
     }
 }

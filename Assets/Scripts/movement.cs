@@ -13,6 +13,8 @@ public class movement : MonoBehaviour
     SpriteRenderer square;
 #endif
 
+    private Animator maxatik;
+
     private SpriteRenderer blinding_screen_renderer;
 
     // ������� ����� ��� ���������� ��� �������.
@@ -208,8 +210,10 @@ public class movement : MonoBehaviour
 #if DEBUG
         square = GetComponent<SpriteRenderer>();
 #endif
-
+        maxatik = transform.GetChild(0).gameObject.GetComponent<Animator>();
         blink_obj = FindObjectOfType<Blinking>();
+        maxatik.Play("Idle");
+        
     }
 
 
@@ -219,7 +223,7 @@ public class movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
 #if DEBUG
 
         // ������� ����� ����� ������� � ����������� �� ����, ��� ����� �� �� �����.
@@ -235,10 +239,12 @@ public class movement : MonoBehaviour
         if (Input.GetKeyDown(_right_leg))
         {
             moveLeg(direction, action.leg, Limb.Right);
+            maxatik.Play("right_after_left");
         }
         else if (Input.GetKeyDown(_left_leg))
         {
             moveLeg(direction, action.leg, Limb.Left);
+            maxatik.Play("left_after_raight");
         }
 
         // Try

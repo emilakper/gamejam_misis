@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/VisitorsAnimation/Animations/client.controller.meta
+guid: af6c03623d20b46489ed795669cf88ed
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+========
+guid: c45528af6831c9c4e815eca5c10d6905
+PrefabImporter:
+  externalObjects: {}
+>>>>>>>> 86f5e1d0dde4cc7a0b863b3cd9bb4fb41e7e9594:Assets/Chair.prefab.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

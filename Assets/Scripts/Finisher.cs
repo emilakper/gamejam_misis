@@ -20,7 +20,7 @@ public class Finisher : MonoBehaviour, Actionable
             if (!player.order_cup.is_ready())
             {
                 player.order_cup.set_coffee(player.order_cup.pre_cup.finish_coffee());
-
+                player.left_arm.get().GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("readycoffe");
             }
         }
     }

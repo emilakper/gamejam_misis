@@ -211,10 +211,11 @@ public class movement : MonoBehaviour
     {
         if (prev_limb == curr_limb)
         {
+            
             return;
         }
 
-        if (!action.standing)
+            if (!action.standing)
         {
             return;
         }
@@ -283,7 +284,7 @@ public class movement : MonoBehaviour
     {
 
         text_mesh.text = reward.ToString();
-        
+       
 #if DEBUG
 
         // ������� ����� ����� ������� � ����������� �� ����, ��� ����� �� �� �����.
@@ -328,19 +329,29 @@ public class movement : MonoBehaviour
             // ����� �� ������ ������ �� ������.
             if (!action.standing)
             {
-                action.regainPoisture();
+                if (transform.rotation.z != 0)
+                    transform.Rotate(new Vector3(0, 0, 1), 90);
+                action.standing = true;
                 action.startBreathing();
             }
         }
 
         if (Input.GetKeyUp(_regain_posture))
         {
-            action.standing = false;
-            action.stopBreathing();
-        }
-        // �� ��������� ����, ������� ��� ��������� ����� �� ������, �� ��������� ���, � ����� ���������� ������ �������
-        if (action.time_since_breath > (breath_genkai - Mathf.Epsilon))
+            if (action.standing == true)
+            {
+                transform.Rotate(new Vector3(0, 0, 1), -90);
+                action.standing = false;
+                action.stopBreathing();
+            }
+
+            }
+            // �� ��������� ����, ������� ��� ��������� ����� �� ������, �� ��������� ���, � ����� ���������� ������ �������
+            if (action.time_since_breath > (breath_genkai - Mathf.Epsilon))
         {
+            
+            transform.Rotate(new Vector3(0, 0, 1), -90);
+            
             action.standing = false;
             action.stopBreathing();
 

@@ -12,6 +12,7 @@ public class ExitDoor : MonoBehaviour
     }
     public void notify_generator(Visitor vis)
     {
+        
         generator.left(vis);   
     }
 }

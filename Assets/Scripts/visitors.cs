@@ -40,7 +40,7 @@ public class visitors : MonoBehaviour
     {
         int indx = visitors_left.FindIndex(x => x.name == vis.name);
         GameObject tmp = visitors_left[visitors_left.Count - 1]; ;
-        visitors_left[visitors_left.Count - 1] = visitors_left[indx];
+        visitors_left[visitors_left.Count - (1 + (number_of_visitors - currently_spawned_visitors_c))] = visitors_left[indx];
         visitors_left[indx] = tmp;
         visitors_left[visitors_left.Count - 1].gameObject.GetComponent<Visitor>().res();
         currently_spawned_visitors_c -= 1;

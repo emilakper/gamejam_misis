@@ -10,7 +10,7 @@ public class Visitor : MonoBehaviour
 {
 
     public bool is_active = false;
-    
+
     stop occupied = null;
 
     public void occupy(stop free_chair)
@@ -67,7 +67,7 @@ public class Visitor : MonoBehaviour
         {
             wait_time += Time.deltaTime;
         }
-        
+
         public CoffeeType coffee;
         private double wait_time = 0;
         public double max_wait_time = 0;
@@ -101,9 +101,9 @@ public class Visitor : MonoBehaviour
         current_order.max_wait_time = 0;
         direction = default_direction;
         speed = default_speed;
-        time_before_ordering = 0; 
+        time_before_ordering = 0;
         order_wait = 10;
-        is_active= false;
+        is_active = false;
     }
 
     void FixedUpdate()
@@ -120,7 +120,7 @@ public class Visitor : MonoBehaviour
         }
         else
         {
-            
+
 
             if (counter_before_ordering > time_before_ordering)
             {
@@ -146,7 +146,7 @@ public class Visitor : MonoBehaviour
             {
                 counter_before_ordering += Time.deltaTime;
             }
-                 
+
 
         }
 
@@ -158,8 +158,13 @@ public class Visitor : MonoBehaviour
         if (collision == null) return;
         if (collision.tag == "ExitDoor")
         {
-            ExitDoor a = collision.gameObject.GetComponent<ExitDoor>();
-            a.notify_generator(this);
+            if (direction != default_direction)
+            {
+                ExitDoor a = collision.gameObject.GetComponent<ExitDoor>();
+                a.notify_generator(this);
+
+            }
+
         }
     }
 }

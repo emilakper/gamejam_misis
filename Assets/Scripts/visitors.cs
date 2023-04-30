@@ -38,6 +38,7 @@ public class visitors : MonoBehaviour
 
     public void left(Visitor vis)
     {
+        vis.is_leaving = false;
         int indx = visitors_left.FindIndex(x => x.name == vis.name);
         GameObject tmp = visitors_left[visitors_left.Count - 1]; ;
         visitors_left[visitors_left.Count - (1 + (number_of_visitors - currently_spawned_visitors_c))] = visitors_left[indx];

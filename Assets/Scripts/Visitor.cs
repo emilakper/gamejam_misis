@@ -7,6 +7,7 @@ using System.Text;
 using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Visitor : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class Visitor : MonoBehaviour
 
     public void occupy(stop free_chair)
     {
+        order_canvas = free_chair.transform.GetChild(2).transform.GetChild(0).GetComponent<Canvas>();
+        img_cap = order_canvas.transform.GetChild(0).GetComponent<Image>();
+        img_esp = order_canvas.transform.GetChild(1).GetComponent<Image>();
+
         occupied = free_chair;
 #if DEBUG
         time_before_ordering = 1;
@@ -34,6 +39,8 @@ public class Visitor : MonoBehaviour
 
     public void free_seat()
     {
+        img_cap.gameObject.SetActive(false);
+        img_esp.gameObject.SetActive(false);
         occupied.onFreed();
         direction = -direction;
         occupied = null;
@@ -94,10 +101,17 @@ public class Visitor : MonoBehaviour
     public Vector3 direction = Vector3.forward;
     private Vector3 default_direction;
     private float default_speed;
+
+    Canvas order_canvas;
+    Image img_cap;
+    Image img_esp;
+
     private void Start()
     {
         default_direction = direction;
         default_speed = speed;
+        
+        
     }
 
     public void res()
@@ -132,8 +146,17 @@ public class Visitor : MonoBehaviour
                 if (current_order.max_wait_time == 0)
                 {
                     current_order = Order.make_new_order();
+
+                    if (current_order.coffee.name == CoffeeType.Cappuccino.name)
+                    {
+                        img_cap.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        img_esp.gameObject.SetActive(true);
+                    }
 #if DEBUG
-                    current_order.max_wait_time = 10;
+                        current_order.max_wait_time = 10;
                     current_order.coffee = CoffeeType.Cappuccino;
                     print(current_order.coffee.name);
 

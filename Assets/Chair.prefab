@@ -149,6 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seat: {fileID: 0}
+  order_trigger: {fileID: 0}
+  _visitor: {fileID: 0}
 --- !u!1001 &1974530354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -234,6 +236,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6151203535845774953}
     m_Modifications:
+    - target: {fileID: 3496766536433860374, guid: 20574a0d2e20a5e4dbc435261a5cbce9, type: 3}
+      propertyPath: m_Size.x
+      value: 52.774673
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496766536433860374, guid: 20574a0d2e20a5e4dbc435261a5cbce9, type: 3}
+      propertyPath: m_Size.y
+      value: 66.79687
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496766536433860374, guid: 20574a0d2e20a5e4dbc435261a5cbce9, type: 3}
+      propertyPath: m_Offset.x
+      value: 2.2134666
+      objectReference: {fileID: 0}
+    - target: {fileID: 3496766536433860374, guid: 20574a0d2e20a5e4dbc435261a5cbce9, type: 3}
+      propertyPath: m_Offset.y
+      value: 2.7415342
+      objectReference: {fileID: 0}
     - target: {fileID: 3876411360994678855, guid: 20574a0d2e20a5e4dbc435261a5cbce9, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -281,6 +299,10 @@ PrefabInstance:
     - target: {fileID: 6701130318305835265, guid: 20574a0d2e20a5e4dbc435261a5cbce9, type: 3}
       propertyPath: m_Name
       value: OrderTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 6701130318305835265, guid: 20574a0d2e20a5e4dbc435261a5cbce9, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20574a0d2e20a5e4dbc435261a5cbce9, type: 3}
